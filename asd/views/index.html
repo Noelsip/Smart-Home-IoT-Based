@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART HOME CONTROL MANAGER</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on("data", ({ data }) => {
+            let component = document.getElementById("data");
+            component.textContent = "Data dari Arduino: " + data;
+        });
+
+        function Lamp(action) {
+            fetch("http://localhost:3000/aselole", {
+                method: "POST",
+                body: JSON.stringify({ data: action }),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>SMART HOME CONTROL MANAGER</h1>
+
+        <div class="device-control">
+            <h2>💡Lampu💡</h2>
+            <div class="button-group">
+                <button onclick="Lamp('1')" class="btn btn-on">ON</button>
+                <button onclick="Lamp('2')" class="btn btn-off">OFF</button>
+            </div>
+        </div>
+
+        <div class="device-control">
+            <h2>👚Jemuran👕</h2>
+            <div class="button-group">
+                <button onclick="Lamp('3')" class="btn btn-on">ON</button>
+                <button onclick="Lamp('4')" class="btn btn-off">OFF</button>
+            </div>
+        </div>
+
+        <div id="data" class="data-display">
+            Menunggu data dari Arduino...
+        </div>
+    </div>
+</body>
+</html>

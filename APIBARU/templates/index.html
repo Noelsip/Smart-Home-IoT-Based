@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kontrol Arduino</title>
+</head>
+<body>
+    <h1>Kontrol Arduino</h1>
+    <h2>LED</h2>
+    <p>Status LED: {{ led_state }}</p>
+    <a href="/led/on"><button>ON</button></a>
+    <a href="/led/off"><button>OFF</button></a>
+
+    <h2>Servo</h2>
+    <p>Posisi Servo: {{ servo_position }}</p>
+    <form action="/servo" method="post">
+        <input type="range" min="0" max="180" name="position" value="{{ servo_position }}" onchange="this.form.submit()">
+    </form>
+</body>
+</html>
